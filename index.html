@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        <link rel="stylesheet" href="/index.css">
+        <link rel="stylesheet" href="https://use.typekit.net/yuk6rfn.css">
+        <title></title>
+    </head>
+    <body>
+
+
+
+
+        <div class="main-icon">
+            <h1>ICON<span  class="icon">nect</span></h1>
+        </div>
+        <div class="body">
+            <div class="container">
+                <div class="row">
+<!----------------------------------------------VIDEO QR ATTENDANCE----------------------------------------------------------------->
+            <div class="col-md-6" >
+                <video id="preview" width="100%"></video>
+            </div>
+<!------------------------------------------------INPUT ATTENDANCE------------------------------------------------------------------>
+                <form class="add">
+                <div class="message-box">
+                 <i class="fas fa-user"></i>
+                 <input type="text" id="NameOfStd" name="NameOfStd" placeholder="StudentInfo"  name="fname" class="form-control mb3" ></input>
+                 <br>
+                 <select class="select" name="RollNo" id="RollNo">
+                     <option id="demo"></option>
+                 </select>
+<!-----------------------------------------------------button------------------------------------------------------------------------>
+                 <div class="button1">
+                    <button  id="attendance" class="btn btn-info" onclick="message()">Attendance</button>
+                    <div class="message">
+                        <div class="success" id="success">Your Message Successfully Sent!</div>
+                        <div class="danger" id="danger">Feilds Can't be Empty!</div>
+                        </div>
+                   </div>
+                </div>        
+            </form>
+        </div>
+    </div>
+</div> 
+
+<table class="table table-dark">
+    <div class="mt-3">
+    <thead>
+        <th>No</th>
+        
+        <th>STUDENT INFO</th>
+        <th>DATE TIME</th>
+    </thead>
+    <tbody id="tbody1"></tbody>
+</div>
+    </table>
+    <script>
+       const date = moment().format("MMMM D, YYYY hh:mm A");
+        console.log(date);
+        document.getElementById("demo").innerHTML = date;
+    </script>
+
+    <script>
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
+        Instascan.Camera.getCameras().then(function(cameras){
+            if (cameras.length > 0 ){
+                scanner.start(cameras[0]);
+            }else{
+                alert("camera not found");
+            }
+        }).catch(function(e)
+        {
+            console.error(e);
+        });
+        scanner.addListener('scan', function(c){
+            document.getElementById('NameOfStd').value=c;
+            document.getElementById("attendance").click();        
+        });
+
+
+    </script>
+       
+   
+    <script src="main.js"></script>
+    <script src="index.js" type="module"></script>
+    <script src="index1.js" type="module"></script>
+    </body>
+</html>
