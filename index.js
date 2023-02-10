@@ -29,9 +29,6 @@ export function answer(){
     return 'module';
 }
 
-
-
-
         var stdNo = 0;
         var tbody = document.getElementById('tbody1')
         function AddItemToTable(name, roll) {
