@@ -15,8 +15,6 @@
     <body>
 
 
-
-
         <div class="main-icon" style="display: flex; justify-content: center;">
             <img src="/icon.png" alt="logo" style="width: 100px; height: 100px; margin-top: 3vh;">
             <h1>ICON<span  class="icon">nect</span></h1>
@@ -58,14 +56,13 @@
         <th>STUDENT INFO</th>
         <th>DATE TIME</th>
     </thead>
-    <tbody id="tbody1" style="background-color: rgb(93, 217, 255);"></tbody>
+    <tbody id="tbody1" style="background-color: rgb(93, 217, 255); color: black;"></tbody>
     </table>
     <script>
        const date = moment().format("MMMM D, YYYY hh:mm A");
         console.log(date);
         document.getElementById("demo").innerHTML = date;
     </script>
-
     <script>
         let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
         Instascan.Camera.getCameras().then(function(cameras){
