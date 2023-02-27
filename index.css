@@ -30,11 +30,20 @@ td{
 
 .add input{
 width: 50vh;
+
 }
 .add button {
     width: 50vh;
     display: none;
 }
+
+.bg-blue {
+    background-color: blue;
+  }
+  
+  .bg-red {
+    background-color: red;
+  }
 
 .message .success {
     font-size: 20px;
@@ -61,3 +70,10 @@ select{
     display: none;
 }
 
+.present{
+    background-color: green;
+}
+
+.late{
+    background-color: orange;
+}

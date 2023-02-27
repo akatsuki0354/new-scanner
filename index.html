@@ -1,91 +1,107 @@
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-        <link rel="stylesheet" href="/index.css">
-        <link rel="icon" type="image/x-icon" href="icon.png">
-        <link rel="stylesheet" href="https://use.typekit.net/yuk6rfn.css">
-        <title>Iconnect</title>
-    </head>
-    <body>
+
+<head>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <link rel="stylesheet" href="/index.css">
+    <link rel="icon" type="image/x-icon" href="icon.png">
+    <link rel="stylesheet" href="https://use.typekit.net/yuk6rfn.css">
+    <title>Iconnect</title>
+</head>
+
+<body>
 
 
-        <div class="main-icon" style="display: flex; justify-content: center;">
-            <img src="/icon.png" alt="logo" style="width: 100px; height: 100px; margin-top: 3vh;">
-            <h1>ICON<span  class="icon">nect</span></h1>
-        </div>
-        <div class="body">
-            <div class="container">
-                <div class="row">
-<!----------------------------------------------VIDEO QR ATTENDANCE----------------------------------------------------------------->
-            <div class="col-md-6" >
-                <video id="preview" width="100%"></video>
-            </div>
-<!------------------------------------------------INPUT ATTENDANCE------------------------------------------------------------------>
+    <div class="main-icon" style="display: flex; justify-content: center;">
+        <img src="/icon.png" alt="logo" style="width: 100px; height: 100px; margin-top: 3vh;">
+        <h1>ICON<span class="icon">nect</span></h1>
+    </div>
+    <div class="body">
+        <div class="container">
+            <div class="row">
+                <!----------------------------------------------VIDEO QR ATTENDANCE----------------------------------------------------------------->
+                <div class="col-md-6">
+                    <video id="preview" width="100%"></video>
+                </div>
+                <!------------------------------------------------INPUT ATTENDANCE------------------------------------------------------------------>
                 <form class="add">
-                <div class="message-box">
-                 <i class="fas fa-user"></i>
-                 <input type="text" id="NameOfStd" name="NameOfStd" placeholder="StudentInfo"  name="fname" class="form-control mb3" ></input>
-                 <br>
-                 <select class="select" name="RollNo" id="RollNo">
-                     <option id="demo"></option>
-                 </select>
-<!-----------------------------------------------------button------------------------------------------------------------------------>
-                 <div class="button1">
-                    <button  id="attendance" class="btn btn-info" onclick="message()">Attendance</button>
-                    <div class="message">
-                        <div class="success alert alert-success" id="success">Attendance successfully inserted!</div>
-                        <div class="danger" id="danger">Feilds Can't be Empty!</div>
+                    <div class="message-box">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="NameOfStd" name="NameOfStd" placeholder="StudentInfo" name="fname"
+                            class="form-control mb3" readonly></input>
+                        <input type="text" id="timeIn" style="display: none;" name="times">
+                        <br>
+                        <select class="select" name="RollNo" id="RollNo">
+                            <option id="demo"></option>
+                        </select>
+
+                        <h1 id=""></h1>
+                        <!-----------------------------------------------------button------------------------------------------------------------------------>
+                        <div class="button1">
+                            <button id="attendance" class="btn btn-info" onclick="message()">Attendance</button>
+                            <div class="message">
+                                <div class="success alert alert-success" id="success">Attendance successfully inserted!
+                                </div>
+                                <div class="danger" id="danger">Feilds Can't be Empty!</div>
+                            </div>
                         </div>
-                   </div>
-                </div>        
-            </form>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div> 
-<table style="background-color: rgb(30, 135, 255); color: white; " class="table table-dark">
-   
-    <thead>
-        <th>No</th>
-        
-        <th>STUDENT INFO</th>
-        <th>DATE TIME</th>
-    </thead>
-    <tbody id="tbody1" style="background-color: rgb(93, 217, 255); color: black;"></tbody>
+    <table style="background-color: rgb(30, 135, 255); color: white; " id="table1" class="table table-dark">
+        <thead>
+            <th>No</th>
+            <th>STUDENT INFO</th>
+            <th>DATE TIME</th>
+        </thead>
+        <tbody id="tbody1" class="highlight" style="background-color: rgb(93, 217, 255); color: black;">
+        </tbody>
     </table>
+
     <script>
-       const date = moment().format("MMMM D, YYYY hh:mm A");
+        const date = moment().format("MMMM D, YYYY hh:mm A");
         console.log(date);
         document.getElementById("demo").innerHTML = date;
     </script>
     <script>
-        let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
-        Instascan.Camera.getCameras().then(function(cameras){
-            if (cameras.length > 0 ){
-                scanner.start(cameras[0]); 
-            }else{
+        const time = moment().format("hh:mm");
+        console.log(time);
+        document.getElementById("timeIn").value = time;
+    </script>
+
+    <script>
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
                 alert("camera not found");
             }
-        }).catch(function(e)
-        {
+        }).catch(function (e) {
             console.error(e);
         });
-        scanner.addListener('scan', function(c){
-            document.getElementById('NameOfStd').value=c;
-            document.getElementById("attendance").click();        
+        scanner.addListener('scan', function (c) {
+            document.getElementById('NameOfStd').value = c;
+            document.getElementById('timeIn').value = time;
+            document.getElementById("attendance").click();
         });
-
-
     </script>
-       
-   
-    <script src="main.js"></script>
-    <script src="index.js" type="module"></script>
+
+
+
+    <!--  -->
+    <script src="main.js" ></script>
+    <script type="module" src="index.js">
+     
+    </script>
     <script src="index1.js" type="module"></script>
-    </body>
+</body>
+
 </html>

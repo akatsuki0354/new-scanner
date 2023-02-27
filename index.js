@@ -1,74 +1,84 @@
-import { getFirestore,doc,getDoc, getDocs, onSnapshot, collection}from "https://www.gstatic.com/firebasejs/9.17.0/firebase-firestore.js";
+
+import { getFirestore, doc, getDoc, getDocs, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/9.17.0/firebase-firestore.js";
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.0/firebase-analytics.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.0/firebase-analytics.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDWt1uExrh1y03bo8Kt-89vNbGQ8j-ITHc",
-  authDomain: "firetest-67b89.firebaseapp.com",
-  databaseURL: "https://firetest-67b89-default-rtdb.firebaseio.com",
-  projectId: "firetest-67b89",
-  storageBucket: "firetest-67b89.appspot.com",
-  messagingSenderId: "880825586749",
-  appId: "1:880825586749:web:43b209e3de7e1c9f028654",
-  measurementId: "G-Y4PQZ4LHCW"
+  apiKey: "AIzaSyD1GxCsUNfVYuE8vq5Z9u3kj8dHFval7Hc",
+  authDomain: "firestore-9d6f3.firebaseapp.com",
+  databaseURL: "https://firestore-9d6f3-default-rtdb.firebaseio.com",
+  projectId: "firestore-9d6f3",
+  storageBucket: "firestore-9d6f3.appspot.com",
+  messagingSenderId: "937341367464",
+  appId: "1:937341367464:web:88c8c27805555c97247e9d",
+  measurementId: "G-8XR09PF58C"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics();
-  const db = getFirestore();
+const db = getFirestore();
 
 
 
-export function answer(){
-    return 'module';
+export function answer() {
+  return 'module';
 }
 
-        var stdNo = 0;
-        var tbody = document.getElementById('tbody1')
-        function AddItemToTable(name, roll) {
-            let trow = document.createElement("tr");
-            let td1 = document.createElement('td');
-            let td2 = document.createElement('td');
-            let td3 = document.createElement('td');
-          
-            // body...
-            td1.innerHTML= ++stdNo;
-            td2.innerHTML= name;
-            td3.innerHTML= roll;
-           
+var stdNo = 0;
+var tbody = document.getElementById('tbody1')
+function AddItemToTable(name, roll, Times) {
+  let trow = document.createElement("tr");
+  let td1 = document.createElement('td');
+  let td2 = document.createElement('td');
+  let td3 = document.createElement('td');
 
+  
+  td1.innerHTML = ++stdNo;
+  td2.innerHTML = name;
+  td3.innerHTML = roll;
+  td3.setAttribute('data-time', Times);
 
-            trow.appendChild(td1);
-            trow.appendChild(td2);
-            trow.appendChild(td3);
-            
+  const timeParts = Times.split(':');
+  const hours = parseInt(timeParts[0]);
+  const minutes = parseInt(timeParts[1]);
 
-            tbody.appendChild(trow);
-        }
+  if (hours === 4 && minutes >= 30 && minutes <= 32) {
+    trow.classList.add('present');
+  } else if (hours === 4 && minutes >= 33 && minutes <= 50) {
+    trow.classList.add('late');
+  }
 
-        function AddAllItemToTable(TheStudent){
-            stdNo=0;
-            tbody.innerHTML="";
-            TheStudent.forEach(element => {
-                AddItemToTable(element.NameOfStd, element.RollNo);
-            });
-        }
+  
+  trow.appendChild(td1);
+  trow.appendChild(td2);
+  trow.appendChild(td3);
+  
+  tbody.insertBefore(trow, tbody.firstChild); // insert the new row at the beginning of the table
+}
 
-        async function GetAllDataOnce(){
-            const querySnapshot = await getDocs(collection(db, "books"));
+function AddAllItemToTable(TheStudent) {
+  stdNo = 0;
+  tbody.innerHTML = "";
+  TheStudent.forEach(element => {
+    AddItemToTable(element.NameOfStd, element.RollNo, element.Times);
+  });
+}
 
-            var students = [];
+async function GetAllDataOnce() {
+  const querySnapshot = await getDocs(collection(db, "books"));
 
-            querySnapshot.forEach(doc => {
-                students.push(doc.data());
-            });
-            AddAllItemToTable(students);
-        }
+  var students = [];
 
-        window.onload = GetAllDataOnce;
+  querySnapshot.forEach(doc => {
+    students.push(doc.data());
+  });
+  AddAllItemToTable(students);
+}
+
+window.onload = GetAllDataOnce;
