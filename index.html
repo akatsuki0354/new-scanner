@@ -32,7 +32,7 @@
                 <form class="add">
                     <div class="message-box">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="NameOfStd" name="NameOfStd" placeholder="StudentInfo" name="fname"
+                        <input type="text" style="display: none;" id="NameOfStd" name="NameOfStd" placeholder="StudentInfo" name="fname"
                             class="form-control mb3" readonly></input>
                         <input type="text" id="timeIn" style="display: none;" name="times">
                         <br>
@@ -55,7 +55,14 @@
             </div>
         </div>
     </div>
-    <table style="background-color: rgb(30, 135, 255); color: white; " id="table1" class="table table-dark">
+    <div style="padding: 20px;">
+        <button class="btn btn-primary">Present</button>
+        <button class="btn btn-warning">Late</button>
+    </div>
+    <br>
+    <br>
+    <table class="table table-info" style="background-color: rgb(30, 135, 255); color: white; " class="table table-dark"
+        id="table1">
         <thead>
             <th>No</th>
             <th>STUDENT INFO</th>
@@ -97,9 +104,9 @@
 
 
     <!--  -->
-    <script src="main.js" ></script>
+    <script src="main.js"></script>
     <script type="module" src="index.js">
-     
+
     </script>
     <script src="index1.js" type="module"></script>
 </body>
